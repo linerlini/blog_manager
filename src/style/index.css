@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import 'node_modules/modern-normalize/modern-normalize.css';
+a {
+  text-decoration: none;
+}
+#app {
+  min-height: 100vh;
+}

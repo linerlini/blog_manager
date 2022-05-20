@@ -1,17 +1,24 @@
-import React, { useState } from 'react'
-import { Layout } from 'antd'
+import React, { useEffect, useState } from 'react'
+import { useLocation, useNavigate, useRoutes } from 'react-router-dom'
+import { useAppDispatch } from 'utils/hooks'
+import useAppRoutes from './router'
 
-const { Header, Content, Sider } = Layout
 function App() {
-  return (
-    <Layout>
-      <Header />
-      <Layout>
-        <Sider />
-        <Content />
-      </Layout>
-    </Layout>
-  )
+  const dispatch = useAppDispatch()
+  const location = useLocation()
+  // useEffect(() => {
+  //   const { pathname } = location
+  //   requestAutoLogign().then((result) => {
+  //     if (result.code === ResponseCode.SUCCESS) {
+  //       const { data } = result
+  //       dispatch(setUser(data))
+  //       dispatch(setLogin(true))
+  //     }
+  //   })
+  // }, [])
+  const routes = useAppRoutes()
+  const pages = useRoutes(routes)
+  return pages
 }
 
 export default App

@@ -1,10 +1,29 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App'
+import { BrowserRouter } from 'react-router-dom'
+import { Provider } from 'react-redux'
 import 'style/index.css'
+import { requestAutoLogign } from 'api/user'
+import { ResponseCode } from 'utils/constants'
+import { setUser } from 'store/slices/user_slice'
+import App from './App'
+import store from './store'
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-)
+async function autoLogin() {
+  const result = await requestAutoLogign()
+  if (result.code === ResponseCode.SUCCESS) {
+    const { data } = result
+    store.dispatch(setUser(data))
+  }
+}
+autoLogin().finally(() => {
+  ReactDOM.createRoot(document.getElementById('root')!).render(
+    <React.StrictMode>
+      <BrowserRouter>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </BrowserRouter>
+    </React.StrictMode>,
+  )
+})

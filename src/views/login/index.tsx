@@ -72,6 +72,9 @@ const LoginPage: React.FC<EmptyReactPops> = function LoginPage() {
     }
     setLoading(false)
   }
+  React.useEffect(() => {
+    console.log(1)
+  }, [])
   return (
     <Layout className="h-screen bg-slate-100 flex justify-center items-center">
       <section className="w-[1000px] h-[600px] rounded-xl shadow-xl flex">

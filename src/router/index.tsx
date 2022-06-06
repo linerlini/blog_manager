@@ -23,10 +23,17 @@ const LazyArticleTypePage = createLazyComponent(ArticleTypePage)
 const LazyArticlePage = createLazyComponent(ArticlePage)
 const LazyResultPage = createLazyComponent(ResultPage)
 const LazyPersonPage = createLazyComponent(PersonalPage)
+const LazyRoleManager = createLazyComponent(React.lazy(() => import('views/role/RoleManager')))
+interface RouteObj extends RouteObject {
+  meta?: {
+    roles: UserRole[]
+  }
+  children?: RouteObj[]
+}
 const useAppRoutes = () => {
   const loginStatus = useAppSelector(selectRole)
 
-  const route: RouteObject[] = [
+  const route: RouteObj[] = [
     {
       path: '/',
       element: <AppLayout />,
@@ -37,6 +44,9 @@ const useAppRoutes = () => {
         },
         {
           path: 'work',
+          meta: {
+            roles: [UserRole.NORMAL_USER, UserRole.ADMIN, UserRole.BLOG],
+          },
           element: loginStatus !== UserRole.TOURISTS ? LazyWorkPageLayout : <Navigate to="/" replace />,
           children: [
             {
@@ -53,15 +63,19 @@ const useAppRoutes = () => {
                 },
                 {
                   path: 'admin/:type',
-                  element: loginStatus === UserRole.ADMIN ? LazySearchTable : <Navigate to="/work/directory" replace />,
+                  element: [UserRole.ADMIN, UserRole.BLOG].includes(loginStatus) ? (
+                    LazySearchTable
+                  ) : (
+                    <Navigate to="/work/directory" replace />
+                  ),
+                },
+                {
+                  path: 'blog/role',
+                  element: loginStatus === UserRole.BLOG ? LazyRoleManager : <Navigate to="/work/directory" replace />,
                 },
                 {
                   path: 'personal',
                   element: LazyPersonPage,
-                },
-                {
-                  path: `admin/:type`,
-                  element: loginStatus === UserRole.ADMIN ? LazySearchTable : <Navigate to="/work/directory" replace />,
                 },
               ],
             },

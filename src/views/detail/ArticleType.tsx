@@ -22,7 +22,7 @@ const ArticleTypePage: React.FC<EmptyReactPops> = function ArticlePage() {
   const [searchParams, setSearchParams] = useSearchParams()
   // 表单初始数据
   const [formData, setFormData] = useState<FormData>({
-    name: '1',
+    name: '',
     desc: '',
     img: [],
   })

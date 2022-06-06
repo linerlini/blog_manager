@@ -17,59 +17,6 @@ import { TableType, UserRole } from 'utils/constants'
 import { useAppSelector } from 'utils/hooks'
 import { selectRole } from 'store/slices/user_slice'
 
-const normalMenuItems: ItemType[] = [
-  {
-    icon: <FileFilled />,
-    label: '文章管理',
-    title: '文章管理',
-    key: 'articleManager',
-    children: [
-      {
-        icon: <SwitcherFilled />,
-        label: '我的文章',
-        title: '我的文章',
-        key: `/work/directory/normal/${TableType.ARTICLE}`,
-        disabled: true,
-      },
-      {
-        icon: <HddFilled />,
-        label: '我的文章类型',
-        title: '我的文章类型',
-        key: `/work/directory/normal/${TableType.ARTICLE_TYPE}`,
-      },
-    ],
-  },
-]
-const adminMenuItems: ItemType[] = [
-  {
-    icon: <FolderFilled />,
-    label: '项目管理',
-    title: '项目管理',
-    key: 'projectManager',
-    children: [
-      {
-        icon: <ProjectFilled />,
-        label: '我的项目',
-        title: '我的项目',
-        key: `/work/directory/admin/${TableType.RESULT}`,
-      },
-    ],
-  },
-  {
-    icon: <HomeFilled />,
-    label: '博客管理',
-    title: '博客管理',
-    key: 'manager',
-    children: [
-      {
-        icon: <UserOutlined />,
-        label: '个人中心',
-        title: '个人中心',
-        key: '/work/directory/personal',
-      },
-    ],
-  },
-]
 const { useMemo } = React
 const SiderMenu: React.FC<EmptyReactPops> = function SiderMenu() {
   const navigate = useNavigate()
@@ -104,7 +51,7 @@ const SiderMenu: React.FC<EmptyReactPops> = function SiderMenu() {
         label: '项目管理',
         title: '项目管理',
         key: 'projectManager',
-        disabled: loginStatus !== UserRole.ADMIN,
+        disabled: loginStatus !== UserRole.BLOG,
         children: [
           {
             icon: <ProjectFilled />,
@@ -131,7 +78,14 @@ const SiderMenu: React.FC<EmptyReactPops> = function SiderMenu() {
             label: '公告管理',
             title: '公告管理',
             key: `/work/directory/admin/${TableType.ANNOUNCEMENT}`,
-            disabled: loginStatus !== UserRole.ADMIN,
+            disabled: ![UserRole.ADMIN, UserRole.BLOG].includes(loginStatus),
+          },
+          {
+            icon: <UserOutlined />,
+            label: '角色管理',
+            title: '角色管理',
+            key: `/work/directory/blog/role`,
+            disabled: loginStatus !== UserRole.BLOG,
           },
         ],
       },

@@ -20,6 +20,7 @@ export const enum UserRole {
   TOURISTS = 0,
   NORMAL_USER = 1,
   ADMIN = 2,
+  BLOG = 3,
 }
 export const enum WorkType {
   ADD = 'add',
